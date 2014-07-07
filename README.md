@@ -1,14 +1,38 @@
 # NAME
 
-Imager::LineTrace - It's new $module
+Imager::LineTrace - これは画像中の直線をトレースするモジュールです
 
 # SYNOPSIS
 
+    # from Sample/bmp2figure.pl
     use Imager::LineTrace;
+
+    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
+
+    my $i = 0;
+    foreach my $figure (@{$figures_ref}) {
+        print "-------- [", $i++, "] --------", "\n";
+        print "trace_value: ", $figure->{value}, "\n";
+        print "is_close: ", $figure->{is_close}, "\n";
+        foreach my $p (@{$figure->{points}}) {
+            printf( "(%2d,%2d)\n", $p->[0], $p->[1] );
+        }
+    }
 
 # DESCRIPTION
 
-Imager::LineTrace is ...
+左下を原点として、反時計周りにトレースを行います。
+現時点では、作者の要求のみ満たすように作られています。
+
+    # 白地に黒でラインが描かれている場合は、以下のように記述します
+    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
+
+    # R,G,B,Alphaのどれを使うかも指定できます
+    # channels には、0:R, 1:G, 2:B, 3:Alpha のいずれか1つを指定します
+    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], channels => [0] );
+
+現時点では、原点は左下固定で、
+下から上、右から左には探索できないので、トレースできない場合も存在します。
 
 # LICENSE
 
