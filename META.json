@@ -47,6 +47,7 @@
       },
       "test" : {
          "requires" : {
+            "Imager" : "0.99",
             "Test::More" : "0.98"
          }
       }
