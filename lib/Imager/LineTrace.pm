@@ -2,10 +2,40 @@ package Imager::LineTrace;
 use 5.008001;
 use strict;
 use warnings;
+use Imager::LineTrace::Algorithm;
+use Imager;
+
 
 our $VERSION = "0.01";
 
+sub trace {
+    my %args = @_;
 
+    if ( not exists $args{file} ) {
+        die 'file => "file_path" is required';
+    }
+
+    my $img = Imager->new( file => $args{file} ) or die Imager->errstr;
+
+    my $channels = [ 0 ];
+    if ( exists $args{channels} and scalar(@{$args{channels}}) == 1 ) {
+        $channels = $args{channels};
+    }
+
+    my @pixels = ();
+    my $h = $img->getheight();
+    for (my $iy=0; $iy<$h; $iy++) {
+        my $ary_ref = $img->getsamples( y => $iy, channels => $channels );
+        my @wk = unpack( "C*", $ary_ref );
+        push @pixels, \@wk;
+    }
+
+    Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+
+    foreach my $line_ref (@pixels) {
+        print @{$line_ref}, "\n";
+    }
+}
 
 1;
 __END__
