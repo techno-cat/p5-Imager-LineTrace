@@ -11,6 +11,7 @@ sub search {
     my $w = scalar(@{$pixels_ref->[0]});
     my $h = scalar(@{$pixels_ref});
 
+    my @figures = ();
     my $y0 = 0;
     foreach my $point_number (1..16) { # todo: $limitで置き換え！
         my ( $x, $y ) = ( -1, -1 );
@@ -19,7 +20,7 @@ sub search {
             my $i = 0;
             #say "iy = $iy";
             foreach my $val (@{$pixels_ref->[$iy]}) {
-                if ( $val ) {
+                if ( $val != $ignore ) {
                     #say "here!!!!!!!!!!!!!";
                     $x = $i;
                     $y = $iy;
@@ -39,18 +40,19 @@ sub search {
 
         my $x0 = $x;
         my $y0 = $y;
+        my $trace_value = $pixels_ref->[$y][$x];
 
         # 探索開始点は図形の左下なので、
         # 上方向の点がなければ閉じていないと判断できる
         my $is_close = 0;
         if ( $y0 < ($h - 1) ) {
-            $is_close = ( $pixels_ref->[$y + 1][$x] != 0 );
+            $is_close = ( $pixels_ref->[$y + 1][$x] != $ignore );
             if ( $is_close ) {
                 # 最後の探索が開始点に到達できるように残しておく
             }
             else {
                 # 閉じた図形ではないので、探索済みの処理をする
-                $pixels_ref->[$y][$x] = 0;
+                $pixels_ref->[$y][$x] = $ignore;
             }
         }
 
@@ -60,45 +62,45 @@ sub search {
             my $number_of_points = scalar( @points );
 
             # 右方向に探索
-            if ( $pixels_ref->[$y][$x + 1] ) {
-                while ( $pixels_ref->[$y][$x + 1] ) {
+            if ( ($x + 1) < $w and $pixels_ref->[$y][$x + 1] == $trace_value ) {
+                while ( $pixels_ref->[$y][$x + 1] == $trace_value ) {
                     $x++;
-                    $pixels_ref->[$y][$x] = 0;
+                    $pixels_ref->[$y][$x] = $ignore;
                 }
 
                 push @points, [ $x, $y ];
             }
 
             # 上方向に探索
-            if ( $pixels_ref->[$y + 1][$x] ) {
-                while ( $pixels_ref->[$y + 1][$x] ) {
+            if ( ($y + 1) < $h and $pixels_ref->[$y + 1][$x] == $trace_value ) {
+                while ( $pixels_ref->[$y + 1][$x] == $trace_value ) {
                     $y++;
-                    $pixels_ref->[$y][$x] = 0;
+                    $pixels_ref->[$y][$x] = $ignore;
                 }
 
                 push @points, [ $x, $y ];
             }
 
             # 左方向に探索
-            if ( $pixels_ref->[$y][$x - 1] ) {
-                while ( $pixels_ref->[$y][$x - 1] ) {
+            if ( 0 < ($x - 1) and $pixels_ref->[$y][$x - 1] == $trace_value ) {
+                while ( $pixels_ref->[$y][$x - 1] == $trace_value ) {
                     $x--;
-                    $pixels_ref->[$y][$x] = 0;
+                    $pixels_ref->[$y][$x] = $ignore;
                 }
 
                 push @points, [ $x, $y ];
             }
 
             # 下方向に探索
-            if ( $pixels_ref->[$y - 1][$x] ) {
-                while ( $pixels_ref->[$y - 1][$x] ) {
+            if ( 0 < ($y - 1) and $pixels_ref->[$y - 1][$x] == $trace_value ) {
+                while ( $pixels_ref->[$y - 1][$x] == $trace_value ) {
                     $y--;
-                    $pixels_ref->[$y][$x] = 0;
+                    $pixels_ref->[$y][$x] = $ignore;
                 }
 
                 if ( $is_close ) {
                     # 開始点に到達したか判定
-                    $search_comp = ( $x == $x0 and $y == $y0 );
+                    $search_comp = 1 if ( $x == $x0 and $y == $y0 );
                     if ( not $search_comp ) {
                         push @points, [ $x, $y ];
                     }
@@ -112,11 +114,15 @@ sub search {
             $search_comp = 1 if $number_of_points == scalar( @points );
         }
 
-        print "-------- [$point_number] --------", "\n";
-        foreach my $p (@points) {
-            printf( "(%2d,%2d)\n", $p->[0], $p->[1] );
-        }
+        # todo: 適切なクラスかデータ構造に変換する
+        push @figures, +{
+            points => \@points,
+            is_close => $is_close,
+            value => $trace_value
+        };
     }
+
+    return \@figures;
 }
 
 1;

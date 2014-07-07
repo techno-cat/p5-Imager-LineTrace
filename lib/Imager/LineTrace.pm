@@ -30,11 +30,10 @@ sub trace {
         push @pixels, \@wk;
     }
 
-    Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    # 左下を原点にしたいので反転
+    @pixels = reverse @pixels;
 
-    foreach my $line_ref (@pixels) {
-        print @{$line_ref}, "\n";
-    }
+    return Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 }
 
 1;
