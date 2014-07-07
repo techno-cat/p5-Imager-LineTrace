@@ -27,8 +27,8 @@ Imager::LineTrace - これは画像中の直線をトレースするモジュー
     # 白地に黒でラインが描かれている場合は、以下のように記述します
     my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
 
-    # R, G, B, Alphaのうち、どの要素をトレースするか指定できます
-    # channels には、0:R, 1:G, 2:B, 3:Alpha のいずれか1つを指定します
+    # R, G, B, Alpha のうち、どの要素をトレースするか指定できます
+    # channels には、 0:R, 1:G, 2:B, 3:Alpha のいずれか1つを指定します
     my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], channels => [0] );
 
     # 白地じゃない場合は、背景色を指定します
