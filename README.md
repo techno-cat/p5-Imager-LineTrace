@@ -36,9 +36,6 @@ Imager::LineTrace - これは画像中の直線をトレースするモジュー
     # 背景色が黒で、黒以外の色をトレースするときは、以下のように記述します
     my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], ignore => 0 );
 
-現時点では、原点は左下固定で、
-下から上、右から左には探索できないので、トレースできない場合も存在します。
-
 # LICENSE
 
 Copyright (C) neko.
