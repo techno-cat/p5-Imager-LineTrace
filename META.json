@@ -53,5 +53,16 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/techno-cat/p5-Imager-LineTrace/issues"
+      },
+      "homepage" : "https://github.com/techno-cat/p5-Imager-LineTrace",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/techno-cat/p5-Imager-LineTrace.git",
+         "web" : "https://github.com/techno-cat/p5-Imager-LineTrace"
+      }
+   },
    "version" : "0.01"
 }
