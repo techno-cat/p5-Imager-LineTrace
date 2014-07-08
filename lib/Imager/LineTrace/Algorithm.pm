@@ -66,6 +66,7 @@ sub search {
                 while ( $pixels_ref->[$y][$x + 1] == $trace_value ) {
                     $x++;
                     $pixels_ref->[$y][$x] = $ignore;
+                    last if $w <= ($x + 1);
                 }
 
                 push @points, [ $x, $y ];
@@ -76,6 +77,7 @@ sub search {
                 while ( $pixels_ref->[$y + 1][$x] == $trace_value ) {
                     $y++;
                     $pixels_ref->[$y][$x] = $ignore;
+                    last if $h <= ($y + 1);
                 }
 
                 push @points, [ $x, $y ];
@@ -86,6 +88,7 @@ sub search {
                 while ( $pixels_ref->[$y][$x - 1] == $trace_value ) {
                     $x--;
                     $pixels_ref->[$y][$x] = $ignore;
+                    last if ($x - 1) < 0;
                 }
 
                 push @points, [ $x, $y ];
@@ -96,6 +99,7 @@ sub search {
                 while ( $pixels_ref->[$y - 1][$x] == $trace_value ) {
                     $y--;
                     $pixels_ref->[$y][$x] = $ignore;
+                    last if ($y - 1) < 0;
                 }
 
                 if ( $is_close ) {
