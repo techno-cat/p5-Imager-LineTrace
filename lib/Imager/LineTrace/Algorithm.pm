@@ -34,7 +34,6 @@ sub search {
         }
 
         if ( $y < 0 ) {
-            print 'comp!', "\n";
             last;
         }
 
