@@ -13,7 +13,7 @@ sub search {
 
     my @figures = ();
     my $y0 = 0;
-    foreach my $point_number (1..16) { # todo: $limitで置き換え！
+    foreach my $point_number (1..$limit) {
         my ( $x, $y ) = ( -1, -1 );
 
         for (my $iy=$y0; $iy<$h; $iy++) {
