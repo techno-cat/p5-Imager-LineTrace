@@ -42,17 +42,21 @@ sub search {
         my $trace_value = $pixels_ref->[$y][$x];
 
         # 探索開始点は図形の左下なので、
-        # 上方向の点がなければ閉じていないと判断できる
+        # 上方向と繋がってなければ閉じていないと判断できる
         my $is_close = 0;
-        if ( $y0 < ($h - 1) ) {
-            $is_close = ( $pixels_ref->[$y + 1][$x] != $ignore );
-            if ( $is_close ) {
-                # 最後の探索が開始点に到達できるように残しておく
+        if ( $x0 < ($w - 1) and $y0 < ($h - 1) ) {
+            if ( $pixels_ref->[$y][$x + 1] == $trace_value
+             and $pixels_ref->[$y + 1][$x] == $trace_value ) {
+                $is_close = 1;
             }
-            else {
-                # 閉じた図形ではないので、探索済みの処理をする
-                $pixels_ref->[$y][$x] = $ignore;
-            }
+        }
+
+        if ( $is_close ) {
+            # 最後の探索が開始点に到達できるように残しておく
+        }
+        else {
+            # 閉じた図形ではないので、探索済みの処理をする
+            $pixels_ref->[$y][$x] = $ignore;
         }
 
         my @points = ( [$x, $y] );
@@ -101,20 +105,30 @@ sub search {
                     last if ($y - 1) < 0;
                 }
 
-                if ( $is_close ) {
-                    # 開始点に到達したか判定
-                    $search_comp = 1 if ( $x == $x0 and $y == $y0 );
-                    if ( not $search_comp ) {
-                        push @points, [ $x, $y ];
-                    }
-                }
-                else {
-                    push @points, [ $x, $y ];
-                }
+                push @points, [ $x, $y ];
             }
 
             # 探索前と頂点を比較することで完了したか判定
-            $search_comp = 1 if $number_of_points == scalar( @points );
+            if ( $number_of_points == scalar(@points) ) {
+                if ( $is_close ) {
+                    my ( $p1, $p2 ) = @points[0,-1];
+                    if ( $p1->[0] == $p2->[0] and $p1->[1] == $p2->[1] ) {
+                        # 開始点と終点が同じなので、終点を取り除いて探索終了
+                        pop @points;
+                        $search_comp = 1;
+                    }
+                    else {
+                        # 閉じていないことが判明したので、開始点から再探索
+                        $is_close = 0;
+                        @points = reverse @points;
+                        $pixels_ref->[$y0][$x0] = $ignore;
+                        ( $x, $y ) = ( $x0, $y0 );
+                    }
+                }
+                else {
+                    $search_comp = 1;
+                }
+            }
         }
 
         # todo: 適切なクラスかデータ構造に変換する
