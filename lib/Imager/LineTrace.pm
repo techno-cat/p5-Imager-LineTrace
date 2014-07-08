@@ -79,6 +79,10 @@ Imager::LineTrace - これは画像中の直線をトレースするモジュー
     # 背景色が黒で、黒以外の色をトレースするときは、以下のように記述します
     my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], ignore => 0 );
 
+    # デフォルトでトレースできる形状の数は 1024 です
+    # たくさんの形状をトレースしたい場合は、以下のように limit を指定します
+    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], limit => 10000 );
+
 =head1 LICENSE
 
 Copyright (C) neko.
