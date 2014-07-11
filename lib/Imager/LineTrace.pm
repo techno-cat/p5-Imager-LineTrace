@@ -2,43 +2,46 @@ package Imager::LineTrace;
 use 5.008001;
 use strict;
 use warnings;
-use Imager::LineTrace::Algorithm;
 use Imager;
+use Imager::LineTrace::Algorithm;
 
 
 our $VERSION = "0.01";
 
 sub trace {
     my %args = @_;
-
-    my $img;
-    if ( exists $args{file} ) {
-        $img = Imager->new( file => $args{file} ) or die Imager->errstr;
-    }
-    elsif ( exists $args{image} ) {
-        $img = $args{image};
-    }
-    else {
-        die '"file" or "image" is required';
-    }
+    my $img = _get_image( %args );
 
     my $channels = [ 0 ];
     if ( exists $args{channels} and scalar(@{$args{channels}}) == 1 ) {
         $channels = $args{channels};
     }
 
+    # 左下が原点になるように格納
     my @pixels = ();
-    my $h = $img->getheight();
-    for (my $iy=0; $iy<$h; $iy++) {
+    my $iy = $img->getheight();
+    while ( 0 < $iy-- ) {
         my $ary_ref = $img->getsamples( y => $iy, channels => $channels );
         my @wk = unpack( "C*", $ary_ref );
         push @pixels, \@wk;
     }
 
-    # 左下を原点にしたいので反転
-    @pixels = reverse @pixels;
-
     return Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+}
+
+sub _get_image {
+    my %args = @_;
+
+    my $img;
+    if ( exists $args{file} ) {
+        return Imager->new( file => $args{file} ) or die Imager->errstr;
+    }
+    elsif ( exists $args{image} ) {
+        return $args{image};
+    }
+    else {
+        die '"file" or "image" is required';
+    }
 }
 
 1;
