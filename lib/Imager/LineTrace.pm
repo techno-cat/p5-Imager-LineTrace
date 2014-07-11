@@ -34,10 +34,10 @@ sub _get_image {
 
     my $img;
     if ( exists $args{file} ) {
-        return Imager->new( file => $args{file} ) or die Imager->errstr;
+        Imager->new( file => $args{file} ) or die Imager->errstr;
     }
     elsif ( exists $args{image} ) {
-        return $args{image};
+        $args{image};
     }
     else {
         die '"file" or "image" is required';
