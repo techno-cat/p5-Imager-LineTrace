@@ -11,11 +11,16 @@ our $VERSION = "0.01";
 sub trace {
     my %args = @_;
 
-    if ( not exists $args{file} ) {
-        die 'file => "file_path" is required';
+    my $img;
+    if ( exists $args{file} ) {
+        $img = Imager->new( file => $args{file} ) or die Imager->errstr;
     }
-
-    my $img = Imager->new( file => $args{file} ) or die Imager->errstr;
+    elsif ( exists $args{image} ) {
+        $img = $args{image};
+    }
+    else {
+        die '"file" or "image" is required';
+    }
 
     my $channels = [ 0 ];
     if ( exists $args{channels} and scalar(@{$args{channels}}) == 1 ) {
@@ -37,6 +42,7 @@ sub trace {
 }
 
 1;
+
 __END__
 
 =encoding utf-8
