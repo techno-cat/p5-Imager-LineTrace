@@ -42,12 +42,13 @@
       },
       "runtime" : {
          "requires" : {
+            "Imager" : "0.99",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
-            "Imager" : "0.99",
+            "Test::Exception" : "0.32",
             "Test::More" : "0.98"
          }
       }
