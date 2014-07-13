@@ -57,7 +57,7 @@ __END__
 
 =head1 NAME
 
-Imager::LineTrace - これは画像中の直線をトレースするモジュールです
+Imager::LineTrace - Line tracer
 
 =head1 SYNOPSIS
 
@@ -69,8 +69,9 @@ Imager::LineTrace - これは画像中の直線をトレースするモジュー
     my $i = 0;
     foreach my $figure (@{$figures_ref}) {
         print "-------- [", $i++, "] --------", "\n";
+        print "type        :", $figure->{type}, "\n";
         print "trace_value: ", $figure->{value}, "\n";
-        print "is_close: ", $figure->{is_close}, "\n";
+        print "is_close: ", $figure->{is_closed}, "\n";
         foreach my $p (@{$figure->{points}}) {
             printf( "(%2d,%2d)\n", $p->[0], $p->[1] );
         }
@@ -78,23 +79,28 @@ Imager::LineTrace - これは画像中の直線をトレースするモジュー
 
 =head1 DESCRIPTION
 
-左下を原点として、反時計周りにトレースを行います。
+    # The origin is at the lower left, I will do the trace counter-clockwise
 
-    # 白地に黒でラインが描かれている場合は、以下のように記述します
-    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
+Basic Overview
 
-    # R, G, B, Alpha のうち、どの要素をトレースするか指定できます
-    # channels には、 0:R, 1:G, 2:B, 3:Alpha のいずれか1つを指定します
-    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], channels => [0] );
+    # Trace image file
+    my $figures_ref = Imager::LineTrace::trace( file => $path );
 
-    # 白地じゃない場合は、背景色を指定します
-    # 背景色のうち channels で指定した要素の値を ignore に指定します
-    # 背景色が黒で、黒以外の色をトレースするときは、以下のように記述します
-    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], ignore => 0 );
+    # Trace imager object.
+    my $img = Imager->new( file => $path ) or die Imager->errstr;
+    my $figures_ref = Imager::LineTrace::trace( image => $img );
 
-    # デフォルトでトレースできる形状の数は 1024 です
-    # たくさんの形状をトレースしたい場合は、以下のように limit を指定します
-    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0], limit => 10000 );
+    # If the line is drawn in black on a white background.
+    my $figures_ref = Imager::LineTrace::trace( file => $path );
+
+    # If you want to select color. ( 0:R, 1:G, 2:B, 3:Alpha )
+    my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0] );
+
+    # If you want to trace not black color.
+    my $figures_ref = Imager::LineTrace::trace( file => $path, ignore => 0 );
+
+    If you want to trace many figure. (default "limit" is 1024)
+    my $figures_ref = Imager::LineTrace::trace( file => $path, limit => 10000 );
 
 =head1 LICENSE
 
