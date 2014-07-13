@@ -131,7 +131,6 @@ sub search {
             }
         }
 
-        # todo: 適切なクラスかデータ構造に変換する
         push @figures, +{
             points => \@points,
             is_close => $is_close,

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Imager;
 use Imager::LineTrace::Algorithm;
-
+use Imager::LineTrace::Figure;
 
 our $VERSION = "0.01";
 
@@ -26,7 +26,12 @@ sub trace {
         push @pixels, \@wk;
     }
 
-    return Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $results = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my @figures = map {
+        Imager::LineTrace::Figure->new( $_ );
+    } @{$results};
+
+    return \@figures;
 }
 
 sub _get_image {
