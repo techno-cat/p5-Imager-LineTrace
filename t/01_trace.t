@@ -11,9 +11,9 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 
-    ok scalar(@{$figures}) == 0, "figure not found.";
+    ok scalar(@{$figures_ref}) == 0, "figure not found.";
 }
 
 {
@@ -22,11 +22,11 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
-    ok scalar(@{$figures}) == 1, "figure found.";
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    ok scalar(@{$figures_ref}) == 1, "figure found.";
 
-    my $figure = $figures->[0];
-    is $figure->{is_close}, 0, "is not close.";
+    my $figure = $figures_ref->[0];
+    is $figure->{is_closed}, 0, "is not close.";
 
     my @expected = (
         [ 0, 0 ]
@@ -42,11 +42,11 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
-    ok scalar(@{$figures}) == 1, "figure found.";
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    ok scalar(@{$figures_ref}) == 1, "figure found.";
 
-    my $figure = $figures->[0];
-    is $figure->{is_close}, 0, "is not close.";
+    my $figure = $figures_ref->[0];
+    is $figure->{is_closed}, 0, "is not close.";
 
     my @expected = (
         [ 0, 0 ],
@@ -63,11 +63,11 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
-    ok scalar(@{$figures}) == 1, "figure found.";
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    ok scalar(@{$figures_ref}) == 1, "figure found.";
 
-    my $figure = $figures->[0];
-    is $figure->{is_close}, 0, "is not close.";
+    my $figure = $figures_ref->[0];
+    is $figure->{is_closed}, 0, "is not close.";
 
     my @expected = (
         [ 0, 0 ],
@@ -85,12 +85,12 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 
-    ok scalar(@{$figures}) == 1, "figure found.";
+    ok scalar(@{$figures_ref}) == 1, "figure found.";
 
-    my $figure = $figures->[0];
-    is $figure->{is_close}, 1, "is close.";
+    my $figure = $figures_ref->[0];
+    is $figure->{is_closed}, 1, "is close.";
 
     my @expected = (
         [ 0, 0 ],
@@ -109,12 +109,12 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 
-    ok scalar(@{$figures}) == 1, "figure found.";
+    ok scalar(@{$figures_ref}) == 1, "figure found.";
 
-    my $figure = $figures->[0];
-    is $figure->{is_close}, 0, "is not close.";
+    my $figure = $figures_ref->[0];
+    is $figure->{is_closed}, 0, "is not close.";
 
     my @expected = (
         [ 0, 0 ],
@@ -133,12 +133,12 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 
-    ok scalar(@{$figures}) == 1, "figure found.";
+    ok scalar(@{$figures_ref}) == 1, "figure found.";
 
-    my $figure = $figures->[0];
-    is $figure->{is_close}, 0, "is not close.";
+    my $figure = $figures_ref->[0];
+    is $figure->{is_closed}, 0, "is not close.";
 
     my @expected = (
         [ 2, 0 ],
@@ -157,13 +157,13 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 
-    ok scalar(@{$figures}) == 2, "figure found.";
+    ok scalar(@{$figures_ref}) == 2, "figure found.";
 
     {
-        my $figure = $figures->[0];
-        is $figure->{is_close}, 0, "is not close.";
+        my $figure = $figures_ref->[0];
+        is $figure->{is_closed}, 0, "is not close.";
 
         my @expected = (
             [ 0, 0 ],
@@ -172,8 +172,8 @@ use_ok $_ for qw(
         is_deeply $figure->{points}, \@expected, "figure is line.";
     }
     {
-        my $figure = $figures->[1];
-        is $figure->{is_close}, 0, "is not close.";
+        my $figure = $figures_ref->[1];
+        is $figure->{is_closed}, 0, "is not close.";
 
         my @expected = (
             [ 0, 2 ],
@@ -190,29 +190,29 @@ use_ok $_ for qw(
     );
 
     my %args = ( ignore => 0 );
-    my $figures = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
 
-    ok scalar(@{$figures}) == 4, "figure found.";
+    ok scalar(@{$figures_ref}) == 4, "figure found.";
 
     {
         my @expected = ( [ 0, 0 ] );
-        is_deeply $figures->[0]->{points}, \@expected, "figure is point.";
-        is $figures->[0]->{value}, 1, "trace value.";
+        is_deeply $figures_ref->[0]->{points}, \@expected, "figure is point.";
+        is $figures_ref->[0]->{value}, 1, "trace value.";
     }
     {
         my @expected = ( [ 1, 0 ] );
-        is_deeply $figures->[1]->{points}, \@expected, "figure is point.";
-        is $figures->[1]->{value}, 2, "trace value.";
+        is_deeply $figures_ref->[1]->{points}, \@expected, "figure is point.";
+        is $figures_ref->[1]->{value}, 2, "trace value.";
     }
     {
         my @expected = ( [ 0, 1 ] );
-        is_deeply $figures->[2]->{points}, \@expected, "figure is point.";
-        is $figures->[2]->{value}, 3, "trace value.";
+        is_deeply $figures_ref->[2]->{points}, \@expected, "figure is point.";
+        is $figures_ref->[2]->{value}, 3, "trace value.";
     }
     {
         my @expected = ( [ 1, 1 ] );
-        is_deeply $figures->[3]->{points}, \@expected, "figure is point.";
-        is $figures->[3]->{value}, 4, "trace value.";
+        is_deeply $figures_ref->[3]->{points}, \@expected, "figure is point.";
+        is $figures_ref->[3]->{value}, 4, "trace value.";
     }
 }
 

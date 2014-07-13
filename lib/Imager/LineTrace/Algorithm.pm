@@ -132,9 +132,9 @@ sub search {
         }
 
         push @figures, +{
-            points => \@points,
-            is_close => $is_close,
-            value => $trace_value
+            points    => \@points,
+            is_closed => $is_close,
+            value     => $trace_value
         };
     }
 
@@ -148,15 +148,43 @@ __END__
 
 =head1 NAME
 
-Imager::LineTrace - It's new $module
+Imager::LineTrace::Algorithm - Line trace algorithm
 
 =head1 SYNOPSIS
 
     use Imager::LineTrace::Algorithm;
 
+    my @pixels = reverse (
+        [ 1, 1, 1 ],
+        [ 1, 0, 1 ],
+        [ 1, 1, 1 ]
+    );
+
+    my %args = ( ignore => 0 );
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+
 =head1 DESCRIPTION
 
-Imager::LineTrace::Algorithm is ...
+Trace algorithm for Imager::LineTracer.
+
+RETURN DATA
+
+    # $figures_ref is ARRAY reference.
+    my $figures_ref = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
+
+    # $figure_ref is HASH reference.
+    my $figure_ref = $figures_ref->[0];
+
+    # $figure_ref->{points} is ARRAY reference.
+    foreach my $point (@{$figure_ref->{points}}) {
+        printf( "x = %d, y = %d\n", $point->[0], $point->[1] );
+    }
+
+    # Traced pixel value.
+    print $figure_ref->{value}, "\n";
+
+    # Figure is closed.
+    print $figure_ref->{is_closed}, "\n";
 
 =head1 LICENSE
 
