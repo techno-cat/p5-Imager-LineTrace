@@ -74,7 +74,6 @@ Imager::LineTrace - これは画像中の直線をトレースするモジュー
 =head1 DESCRIPTION
 
 左下を原点として、反時計周りにトレースを行います。
-現時点では、作者の要求のみ満たすように作られています。
 
     # 白地に黒でラインが描かれている場合は、以下のように記述します
     my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
