@@ -99,7 +99,7 @@ Basic Overview
     # If you want to trace not black color.
     my $figures_ref = Imager::LineTrace::trace( file => $path, ignore => 0 );
 
-    If you want to trace many figure. (default "limit" is 1024)
+    # If you want to trace many figure. (default "limit" is 1024)
     my $figures_ref = Imager::LineTrace::trace( file => $path, limit => 10000 );
 
 =head1 LICENSE
