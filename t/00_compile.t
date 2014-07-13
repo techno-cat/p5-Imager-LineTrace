@@ -17,20 +17,20 @@ throws_ok( sub {
     $img->setpixel( x => 0, y => 0, color => $color);
 
     {
-        my $figures = Imager::LineTrace::trace( image => $img, channels => [0] );
-        is $figures->[0]->{value}, 1, 'use channels.';
+        my $figures_ref = Imager::LineTrace::trace( image => $img, channels => [0] );
+        is $figures_ref->[0]->{value}, 1, 'use channels.';
     }
     {
-        my $figures = Imager::LineTrace::trace( image => $img, channels => [1] );
-        is $figures->[0]->{value}, 2, 'use channels.';
+        my $figures_ref = Imager::LineTrace::trace( image => $img, channels => [1] );
+        is $figures_ref->[0]->{value}, 2, 'use channels.';
     }
     {
-        my $figures = Imager::LineTrace::trace( image => $img, channels => [2] );
-        is $figures->[0]->{value}, 3, 'use channels.';
+        my $figures_ref = Imager::LineTrace::trace( image => $img, channels => [2] );
+        is $figures_ref->[0]->{value}, 3, 'use channels.';
     }
     {
-        my $figures = Imager::LineTrace::trace( image => $img, channels => [3] );
-        is $figures->[0]->{value}, 4, 'use channels.';
+        my $figures_ref = Imager::LineTrace::trace( image => $img, channels => [3] );
+        is $figures_ref->[0]->{value}, 4, 'use channels.';
     }
 }
 
