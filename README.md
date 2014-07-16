@@ -13,7 +13,7 @@ Imager::LineTrace - Line tracer
     foreach my $figure (@{$figures_ref}) {
         print "-------- [", $i++, "] --------", "\n";
         print "type        :", $figure->{type}, "\n";
-        print "trace_value: ", $figure->{value}, "\n";
+        print "trace_value : ", sprintf("0x%06X", $figure->{value}), "\n";
         print "is_close: ", $figure->{is_closed}, "\n";
         foreach my $p (@{$figure->{points}}) {
             printf( "(%2d,%2d)\n", $p->[0], $p->[1] );
@@ -38,6 +38,9 @@ Basic Overview
 
     # If you want to select color. ( 0:R, 1:G, 2:B, 3:Alpha )
     my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0] );
+
+    # Or you want to trace with R,G and B.(this is defalt.)
+    my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0,1,2] );
 
     # If you want to trace not black color.
     my $figures_ref = Imager::LineTrace::trace( file => $path, ignore => 0 );
