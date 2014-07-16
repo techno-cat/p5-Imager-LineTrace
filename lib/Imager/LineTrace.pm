@@ -12,18 +12,46 @@ sub trace {
     my %args = @_;
     my $img = _get_image( %args );
 
-    my $channels = [ 0 ];
-    if ( exists $args{channels} and scalar(@{$args{channels}}) == 1 ) {
+    my $channels = [ 0, 1, 2 ];
+    if ( exists $args{channels} ) {
         $channels = $args{channels};
     }
 
     # 左下が原点になるように格納
+    my $number_of_channels = scalar( @{$channels} );
     my @pixels = ();
     my $iy = $img->getheight();
     while ( 0 < $iy-- ) {
         my $ary_ref = $img->getsamples( y => $iy, channels => $channels );
-        my @wk = unpack( "C*", $ary_ref );
+        my @wk = ();
+        if ( @{$channels} == 3 ) {
+            my @tmp = unpack( "C*", $ary_ref );
+            while ( @tmp ) {
+                my $val = shift @tmp;
+                $val = ($val << 8) + shift @tmp;
+                $val = ($val << 8) + shift @tmp;
+                push @wk, $val;
+            }
+        }
+        elsif ( @{$channels} == 2 ) {
+            @wk = unpack( "S*", $ary_ref );
+        }
+        else {
+            @wk = unpack( "C*", $ary_ref );
+        }
         push @pixels, \@wk;
+    }
+
+    if ( not exists $args{ignore} ) {
+        if ( @{$channels} == 3 ) {
+            $args{ignore} = 0xFFFFFF;
+        }
+        elsif ( @{$channels} == 2 ) {
+            $args{ignore} = 0xFFFF;
+        }
+        else {
+            $args{ignore} = 0xFF;
+        }
     }
 
     my $results = Imager::LineTrace::Algorithm::search( \@pixels, \%args );
@@ -70,7 +98,7 @@ Imager::LineTrace - Line tracer
     foreach my $figure (@{$figures_ref}) {
         print "-------- [", $i++, "] --------", "\n";
         print "type        :", $figure->{type}, "\n";
-        print "trace_value: ", $figure->{value}, "\n";
+        print "trace_value : ", sprintf("0x%06X", $figure->{value}), "\n";
         print "is_close: ", $figure->{is_closed}, "\n";
         foreach my $p (@{$figure->{points}}) {
             printf( "(%2d,%2d)\n", $p->[0], $p->[1] );
@@ -95,6 +123,9 @@ Basic Overview
 
     # If you want to select color. ( 0:R, 1:G, 2:B, 3:Alpha )
     my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0] );
+
+    # Or you want to trace with R,G and B.(this is defalt.)
+    my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0,1,2] );
 
     # If you want to trace not black color.
     my $figures_ref = Imager::LineTrace::trace( file => $path, ignore => 0 );

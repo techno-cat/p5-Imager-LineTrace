@@ -5,7 +5,7 @@ use warnings;
 
 sub search {
     my ( $pixels_ref, $opt ) = @_;
-    my $ignore = ( exists $opt->{ignore} ) ? $opt->{ignore} : 255;
+    my $ignore = ( exists $opt->{ignore} ) ? $opt->{ignore} : 0;
     my $limit = ( exists $opt->{limit} ) ? $opt->{limit} : 1024;
 
     my $w = scalar(@{$pixels_ref->[0]});
