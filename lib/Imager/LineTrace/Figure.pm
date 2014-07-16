@@ -26,10 +26,10 @@ sub new {
     }
 
     bless {
-        points   => \@points,
-        is_close => $args_ref->{is_close},
-        value    => $args_ref->{value},
-        type     => $type
+        points    => \@points,
+        is_closed => $args_ref->{is_closed},
+        value     => $args_ref->{value},
+        type      => $type
     }, $pkg;
 }
 
