@@ -154,7 +154,7 @@ Imager::LineTrace::Algorithm - Line trace algorithm
 
     use Imager::LineTrace::Algorithm;
 
-    my @pixels = reverse (
+    my @pixels = Imager::LineTrace::Figure->new(
         [ 1, 1, 1 ],
         [ 1, 0, 1 ],
         [ 1, 1, 1 ]
