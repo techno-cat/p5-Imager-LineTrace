@@ -59,8 +59,6 @@ throws_ok( sub {
         );
         is_deeply $figures_ref->[0]->{points}, \@expected, "Trace clockwise.";
     }
-
-    $img->write( file => 'foo.png' );
 }
 
 done_testing;
