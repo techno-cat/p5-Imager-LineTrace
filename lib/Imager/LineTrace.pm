@@ -6,7 +6,7 @@ use Imager;
 use Imager::LineTrace::Algorithm;
 use Imager::LineTrace::Figure;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 sub trace {
     my %args = @_;
@@ -17,11 +17,18 @@ sub trace {
         $channels = $args{channels};
     }
 
-    # 左下が原点になるように格納
+    if ( exists $args{vfrip} and $args{vflip} == 0 ) {
+        # not flip
+    }
+    else {
+        $img->flip( dir => 'v' );
+    }
+
     my $number_of_channels = scalar( @{$channels} );
-    my @pixels = ();
-    my $iy = $img->getheight();
-    while ( 0 < $iy-- ) {
+    my $ymax = $img->getheight() - 1;
+    my @pixels = map {
+        my $iy = $_;
+
         my $ary_ref = $img->getsamples( y => $iy, channels => $channels );
         my @wk = ();
         if ( @{$channels} == 3 ) {
@@ -39,8 +46,9 @@ sub trace {
         else {
             @wk = unpack( "C*", $ary_ref );
         }
-        push @pixels, \@wk;
-    }
+
+        \@wk;
+    } 0..$ymax;
 
     if ( not exists $args{ignore} ) {
         if ( @{$channels} == 3 ) {
@@ -107,7 +115,7 @@ Imager::LineTrace - Line tracer
 
 =head1 DESCRIPTION
 
-    # The origin is at the lower left, I will do the trace counter-clockwise
+    # Tracing counter-clockwise from left bottom.
 
 Basic Overview
 
@@ -132,6 +140,9 @@ Basic Overview
 
     # If you want to trace many figure. (default "limit" is 1024)
     my $figures_ref = Imager::LineTrace::trace( file => $path, limit => 10000 );
+
+    # If you want to trace clockwise from left top.
+    my $figures_ref = Imager::LineTrace::trace( file => $path, vflip => 0 );
 
 =head1 LICENSE
 
