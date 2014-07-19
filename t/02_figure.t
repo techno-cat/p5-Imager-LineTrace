@@ -10,7 +10,7 @@ use_ok $_ for qw(
         points => [
             [ 0, 0 ]
         ],
-        is_close => 0,
+        is_closed => 0,
         value => 0
     } );
 
@@ -23,7 +23,7 @@ use_ok $_ for qw(
             [ 0, 0 ],
             [ 1, 0 ]
         ],
-        is_close => 0,
+        is_closed => 0,
         value => 0
     } );
 
@@ -37,7 +37,7 @@ use_ok $_ for qw(
             [ 1, 0 ],
             [ 1, 1 ]
         ],
-        is_close => 0,
+        is_closed => 0,
         value => 0
     } );
 
@@ -52,7 +52,7 @@ use_ok $_ for qw(
             [ 1, 1 ],
             [ 0, 1 ]
         ],
-        is_close => 1,
+        is_closed => 1,
         value => 0
     } );
 
