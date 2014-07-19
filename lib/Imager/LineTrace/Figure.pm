@@ -12,7 +12,7 @@ sub new {
     } @{$args_ref->{points}};
 
     my $type = "Undefined";
-    if ( $args_ref->{is_close} ) {
+    if ( $args_ref->{is_closed} ) {
         $type = "Polygon";
     }
     elsif ( 3 <= scalar(@points) ) {
