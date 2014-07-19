@@ -34,4 +34,33 @@ throws_ok( sub {
     }
 }
 
+{
+    my $img = Imager->new( xsize => 3, ysize => 3, channels => 4 );
+    $img->box( filled => 1, color => 'white' );
+    $img->polyline( color => 'black', points => [[0, 0], [2, 0], [2, 2]] );
+
+    {
+        my $figures_ref = Imager::LineTrace::trace( image => $img );
+
+        my @expected = (
+            [ 2, 0 ],
+            [ 2, 2 ],
+            [ 0, 2 ],
+        );
+        is_deeply $figures_ref->[0]->{points}, \@expected, "Trace counter-clockwise.";
+    }
+    {
+        my $figures_ref = Imager::LineTrace::trace( image => $img, vflip => 0 );
+
+        my @expected = (
+            [ 0, 0 ],
+            [ 2, 0 ],
+            [ 2, 2 ],
+        );
+        is_deeply $figures_ref->[0]->{points}, \@expected, "Trace clockwise.";
+    }
+
+    $img->write( file => 'foo.png' );
+}
+
 done_testing;
