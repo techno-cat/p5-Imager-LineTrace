@@ -22,7 +22,7 @@ Imager::LineTrace - Line tracer
 
 # DESCRIPTION
 
-    # The origin is at the lower left, I will do the trace counter-clockwise
+    # Tracing counter-clockwise from left bottom.
 
 Basic Overview
 
@@ -47,6 +47,9 @@ Basic Overview
 
     # If you want to trace many figure. (default "limit" is 1024)
     my $figures_ref = Imager::LineTrace::trace( file => $path, limit => 10000 );
+
+    # If you want to trace clockwise from left top.
+    my $figures_ref = Imager::LineTrace::trace( file => $path, vflip => 0 );
 
 # LICENSE
 
