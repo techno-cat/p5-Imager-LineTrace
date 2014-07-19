@@ -1,7 +1,6 @@
 use v5.14;
 use strict;
 use warnings;
-use lib "../lib";
 use Imager::LineTrace;
 
 if ( (not @ARGV) or (not -e $ARGV[0]) ) {
