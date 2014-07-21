@@ -7,12 +7,13 @@ Imager::LineTrace - Line tracer
     # from Sample/bmp2figure.pl
     use Imager::LineTrace;
 
-    my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
+    my $img = Imager::LineTrace->new( file => $ARGV[0] ) or die Imager->errstr;
+    my $figures_ref = $img->linetrace();
 
     my $i = 0;
     foreach my $figure (@{$figures_ref}) {
         print "-------- [", $i++, "] --------", "\n";
-        print "type        :", $figure->{type}, "\n";
+        print "type        : ", $figure->{type}, "\n";
         print "trace_value : ", sprintf("0x%06X", $figure->{value}), "\n";
         print "is_close: ", $figure->{is_closed}, "\n";
         foreach my $p (@{$figure->{points}}) {
@@ -22,34 +23,30 @@ Imager::LineTrace - Line tracer
 
 # DESCRIPTION
 
-    # Tracing counter-clockwise from left bottom.
+    # Tracing clockwise from left top.
 
 Basic Overview
 
-    # Trace image file
-    my $figures_ref = Imager::LineTrace::trace( file => $path );
+    my $img = Imager::LineTrace->new( file => $path ) or die Imager->errstr;
 
-    # Trace imager object.
-    my $img = Imager->new( file => $path ) or die Imager->errstr;
-    my $figures_ref = Imager::LineTrace::trace( image => $img );
+    # Trace black line on white.
+    my $figures_ref = $img->linetrace();
 
-    # If the line is drawn in black on a white background.
-    my $figures_ref = Imager::LineTrace::trace( file => $path );
+    # If you want to trace counter-clockwise from left bottom.
+    $img->filp( dir => 'v' );
+    my $figures_ref = $img->linetrace();
 
     # If you want to select color. ( 0:R, 1:G, 2:B, 3:Alpha )
-    my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0] );
+    my $figures_ref = $img->linetrace( channels => [0] );
 
     # Or you want to trace with R,G and B.(this is defalt.)
-    my $figures_ref = Imager::LineTrace::trace( file => $path, channels => [0,1,2] );
+    my $figures_ref = $img->linetrace( channels => [0,1,2] );
 
     # If you want to trace not black color.
-    my $figures_ref = Imager::LineTrace::trace( file => $path, ignore => 0 );
+    my $figures_ref = $img->linetrace( ignore => 0 );
 
     # If you want to trace many figure. (default "limit" is 1024)
-    my $figures_ref = Imager::LineTrace::trace( file => $path, limit => 10000 );
-
-    # If you want to trace clockwise from left top.
-    my $figures_ref = Imager::LineTrace::trace( file => $path, vflip => 0 );
+    my $figures_ref = $img->linetrace( limit => 10000 );
 
 # LICENSE
 
