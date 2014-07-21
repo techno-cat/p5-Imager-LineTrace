@@ -9,7 +9,8 @@ if ( (not @ARGV) or (not -e $ARGV[0]) ) {
     exit( 0 );
 }
 
-my $figures_ref = Imager::LineTrace::trace( file => $ARGV[0] );
+my $img = Imager::LineTrace->new( file => $ARGV[0] ) or die Imager->errstr;
+my $figures_ref = $img->linetrace();
 
 my $i = 0;
 foreach my $figure (@{$figures_ref}) {
