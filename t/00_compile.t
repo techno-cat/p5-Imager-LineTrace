@@ -1,14 +1,9 @@
 use strict;
 use Test::More 0.98;
-use Test::Exception;
 
 use_ok $_ for qw(
     Imager::LineTrace
 );
-
-throws_ok( sub {
-    Imager::LineTrace::trace( file => 'unreadable' );
-}, qr//, 'file not exists.' );
 
 {
     my $color = Imager::Color->new( 1, 2, 3, 4 );
