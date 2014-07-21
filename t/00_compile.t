@@ -11,19 +11,19 @@ use_ok $_ for qw(
     $img->setpixel( x => 0, y => 0, color => $color);
 
     {
-        my $figures_ref = $img->linetrace( channels => [0] );
+        my $figures_ref = $img->line_trace( channels => [0] );
         is $figures_ref->[0]->{value}, 1, 'use channels.';
     }
     {
-        my $figures_ref = $img->linetrace( channels => [1] );
+        my $figures_ref = $img->line_trace( channels => [1] );
         is $figures_ref->[0]->{value}, 2, 'use channels.';
     }
     {
-        my $figures_ref = $img->linetrace( channels => [2] );
+        my $figures_ref = $img->line_trace( channels => [2] );
         is $figures_ref->[0]->{value}, 3, 'use channels.';
     }
     {
-        my $figures_ref = $img->linetrace( channels => [3] );
+        my $figures_ref = $img->line_trace( channels => [3] );
         is $figures_ref->[0]->{value}, 4, 'use channels.';
     }
 }
@@ -34,7 +34,7 @@ use_ok $_ for qw(
     $img->polyline( color => 'black', points => [[0, 0], [2, 0], [2, 2]] );
 
     {
-        my $figures_ref = $img->linetrace();
+        my $figures_ref = $img->line_trace();
 
         my @expected = (
             [ 0, 0 ],
@@ -46,7 +46,7 @@ use_ok $_ for qw(
 
     $img->flip( dir => 'v' );
     {
-        my $figures_ref = $img->linetrace();
+        my $figures_ref = $img->line_trace();
 
         my @expected = (
             [ 2, 0 ],
@@ -63,7 +63,7 @@ use_ok $_ for qw(
     $img->polyline( color => 'white', points => [[0, 0], [2, 0], [2, 2]] );
 
     {
-        my $figures_ref = $img->linetrace( ignore => 0 );
+        my $figures_ref = $img->line_trace( ignore => 0 );
 
         my @expected = (
             [ 0, 0 ],
