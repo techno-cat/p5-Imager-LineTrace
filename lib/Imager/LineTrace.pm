@@ -8,7 +8,7 @@ use base qw(Imager);
 use Imager::LineTrace::Algorithm;
 use Imager::LineTrace::Figure;
 
-our $VERSION = "0.03";
+our $VERSION = "0.04";
 
 sub line_trace {
     my $self = shift;
