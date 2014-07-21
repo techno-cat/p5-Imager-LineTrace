@@ -3,6 +3,7 @@ use 5.008001;
 use strict;
 use warnings;
 
+# コード中のコメントは、左下を原点として記述している
 sub search {
     my ( $pixels_ref, $opt ) = @_;
     my $ignore = ( exists $opt->{ignore} ) ? $opt->{ignore} : 0;
